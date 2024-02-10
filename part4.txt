@@ -1,0 +1,75 @@
+Question 1: 
+Explain how FastAPI handles asynchronous requests and its benefits over synchronous code in Python.
+
+FastAPI handles asynchronous requests by leveraging Python's asyncio framework and async/await syntax. 
+Asynchronous programming allows FastAPI to process multiple requests concurrently without blocking, 
+leading to improved performance, responsiveness, and resource efficiency compared to synchronous code. 
+This means FastAPI can handle more requests simultaneously and respond faster, 
+making it ideal for building high-performance web applications and APIs.
+===========================================================================================================================
+
+Question 2:
+Describe how dependency injection works in FastAPI and give an example of its practical use.
+
+Dependency injection in FastAPI works by allowing you to define dependencies, such as database connections or authentication mechanisms,
+as parameters in your endpoint functions. FastAPI automatically resolves these dependencies and passes them to your endpoint 
+functions when they are called.
+
+For example, consider a scenario where we need to access a database connection in an endpoint function. We can define a 
+dependency function to obtain the database connection and then use it as a parameter in our endpoint function:
+
+from fastapi import Depends
+
+# Dependency function to obtain database connection
+def get_db_connection():
+    # Code to obtain and return database connection
+    return db_connection
+
+# Endpoint function that uses the database connection
+@app.get("/items/")
+def read_items(db: Database = Depends(get_db_connection)):
+    # Code to use the database connection
+    # Dependency injection ensures that 'db' parameter is automatically populated with the database connection
+    pass
+
+In this example, the get_db_connection function is a dependency function that obtains the database connection. 
+The Depends function is used to declare the dependency, and FastAPI automatically resolves it by calling the 
+get_db_connection function and passing the result to the read_items function when it is called.
+
+This allows you to keep our endpoint functions clean and decoupled from the details of obtaining dependencies, 
+making our code more modular and easier to test and maintain.
+=====================================================================================================================
+
+
+Question 3: 
+Code walkthrough
+
+Imports and FastAPI Initialization:
+
+The code begins with importing necessary modules from FastAPI, Pydantic, and sqlite3.
+FastAPI instance (app) is initialized.
+Database Setup:
+
+A connection to the SQLite database book_reviews.db is established.
+Cursor object is created to execute SQL queries.
+Two tables (books and reviews) are created if they don't exist already.
+Pydantic Models:
+
+Two Pydantic models (Book and Review) are defined for data validation.
+
+Endpoints:
+Create Book Endpoint (POST /books/):
+Accepts a JSON payload representing a book and inserts it into the books table.
+Get Books Endpoint (GET /books/):
+Retrieves all books from the database with optional filtering by author or publication year.
+Create Review Endpoint (POST /reviews/):
+Accepts a JSON payload representing a review, checks if the corresponding book exists, and inserts the review into the reviews table.
+Get Reviews Endpoint (GET /reviews/{book_id}):
+Retrieves all reviews for a specific book based on its ID.
+Create Review with Email Endpoint (POST /email_reviews/):
+Simulates checking if the book exists and adding the review to the database. Then, it simulates sending a confirmation email asynchronously using background tasks.
+
+Background Task:
+send_confirmation_email is a simulated function that prints a confirmation message for sending an email.
+The create_review_with_email endpoint simulates checking if a book exists, adding a review to the database, and then scheduling a background task to send a confirmation email.
+Dependency Injection:
