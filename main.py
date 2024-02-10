@@ -56,6 +56,7 @@ def create_book(book: Book):
     conn.commit()
     conn.close()
     return {"message": "Book added successfully"}
+    
 
 # endpoint to get books
 @app.get("/books/")
@@ -82,6 +83,7 @@ def get_books(author: Optional[str] = None, publication_year: Optional[int] = No
         book_list.append(book_dict)
 
     return {"books": book_list}
+    
 
 #endpoint to create reviews api
 @app.post("/reviews/")
@@ -131,6 +133,7 @@ def get_reviews(book_id: int):
 def send_confirmation_email(review_id: int):
     # Simulated email sending
     print(f"Confirmation email sent for review {review_id}")
+    
 
 @app.post("/email_reviews/")
 def create_review_with_email(review: Review, background_tasks: BackgroundTasks):
